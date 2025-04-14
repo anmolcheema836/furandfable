@@ -595,7 +595,7 @@ b{
 
     // Step 3: Share via WhatsApp (error simulation and retry)
     function shareStep() {
-      window.open("https://api.whatsapp.com/send?text=Check%20this%20out:%20creative.design.vercel.app", "_blank");
+      window.open("https://api.whatsapp.com/send?text=Check%20out%20this%20giveaway:%20https://furandfable.vercel.app/", "_blank");
       setTimeout(() => {
         document.getElementById("shareError").style.display = "block";
       }, 500);
@@ -603,7 +603,7 @@ b{
     
     function retryShare() {
       stepsCompleted[2] = true;
-      window.open("https://api.whatsapp.com/send?text=Check%20this%20out:%20creative.design.vercel.app", "_blank");
+      window.open("https://api.whatsapp.com/send?text=Check%20out%20this%20giveaway:%20https://furandfable.vercel.app/", "_blank");
       document.getElementById("step3").innerHTML = '<span class="completed">&#10003; Completed</span>';
       document.getElementById("shareError").style.display = "none";
       checkAllSteps();
