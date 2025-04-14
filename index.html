@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mystery Box Picker & Giveaway</title>
+  <!-- Import Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Variables for reusability */
+    :root {
+      --primary: #00eaff;
+      --secondary: #ff00e6;
+      --accent: #00ff88;
+      --bg-dark: #111;
+      --glass-bg: rgba(255, 255, 255, 0.06);
+      --border-glass: rgba(255, 255, 255, 0.15);
+    }
+    .securedby {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: #ccc;
+  font-weight: 500;
+  text-align: center;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.securedby:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 234, 255, 0.3);
+  color: #00eaff;
+}
+
+
+    /* Global Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(135deg, #0d0d0d 0%, #222 100%);
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      flex-direction: column;
+    }
+
+    /* Winner Scroller Styles */
+    .winner-scroller {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    }
+    .winner-scroller h3 {
+      font-size: 1.1rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      padding: 8px 0;
+    }
+    .scroller-content {
+      white-space: nowrap;
+      display: inline-block;
+      padding-left: 100%;
+      animation: scrollWinner 200s linear infinite;
+      font-size: 0.95rem;
+      padding-bottom: 8px;
+    }
+    @keyframes scrollWinner {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+    .winner-item {
+      display: inline-block;
+      margin-right: 50px;
+    }
+    .winner-item span {
+      font-weight: 500;
+    }
+
+    /* Container with glassmorphic design */
+    .container {
+      background: var(--glass-bg);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+b{
+  color: green;
+}
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Mystery Box Grid Styles */
+    .box-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 1.5rem;
+    }
+
+    .mystery-box {
+      background: var(--glass-bg);
+      border: 2px solid var(--border-glass);
+      border-radius: 15px;
+      height: 110px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mystery-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 234, 255, 0.4);
+    }
+
+    .mystery-box.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .box-image {
+      width: 70%;
+      height: auto;
+      filter: drop-shadow(0 0 8px var(--primary));
+      transition: transform 0.3s ease;
+    }
+
+    .mystery-box:hover .box-image {
+      transform: scale(1.1);
+    }
+
+    .reward-reveal {
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Modal Popup for Reward */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .modal.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .modal h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .modal p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .modal button {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #fff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 234, 255, 0.3);
+    }
+
+    .modal button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 234, 255, 0.5);
+    }
+
+    /* Steps Section */
+    .steps {
+      margin-top: 1.5rem;
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .step {
+      background: var(--glass-bg);
+      padding: 12px 15px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-glass);
+    }
+
+    .step span {
+      font-size: 1rem;
+    }
+
+    .step button {
+      background: rgba(0, 234, 255, 0.15);
+      border: none;
+      padding: 7px 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .step button:hover {
+      transform: scale(1.05);
+      background: rgba(0, 234, 255, 0.3);
+    }
+
+    .completed {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Error Message in steps */
+    .error-message {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #f66;
+      text-align: center;
+    }
+
+    .error-message button {
+      background: rgba(0, 234, 255, 0.15);
+      border: none;
+      padding: 5px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .error-message button:hover {
+      transform: scale(1.05);
+    }
+
+    /* Input Section */
+    .input-section {
+      margin-top: 1.5rem;
+      display: none;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .input-section input {
+      padding: 12px;
+      border: 1px solid var(--border-glass);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.3s ease;
+      width: 100%;
+    }
+
+    .input-section input:focus {
+      border-color: var(--primary);
+    }
+
+    .input-section input::placeholder {
+      color: #ccc;
+    }
+
+    .input-section button {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 234, 255, 0.3);
+      width: 100%;
+    }
+
+    .input-section button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 234, 255, 0.5);
+    }
+
+    /* Success Message */
+    .success-message {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Winner Scroller -->
+  <div class="winner-scroller">
+    <h3>Recent Winners</h3>
+    <div class="scroller-content">
+      <span class="winner-item"><span>Rohan Sharma</span> won <b>150rs</b></span>
+      <span class="winner-item"><span>Priya Verma</span> won <b>5rs</b></span>
+      <span class="winner-item"><span>Amit Kumar</span> won <b>75rs</b></span>
+      <span class="winner-item"><span>Neha Singh</span> won <b>30rs</b></span>
+      <span class="winner-item"><span>Siddharth Patel</span> won <b>10rs</b></span>
+      <span class="winner-item"><span>Divya Reddy</span> won <b>5rs</b></span>
+      <span class="winner-item"><span>Karan Mehta</span> won <b>500rs</b></span>
+      <span class="winner-item"><span>Aisha Khan</span> won <b>2rs</b></span>
+      <span class="winner-item"><span>Vikram Rao</span> won <b>25rs</b></span>
+      <span class="winner-item"><span>Anjali Gupta</span> won <b>35rs</b></span>
+      <span class="winner-item"><span>Rahul Nair</span> won <b>40rs</b></span>
+      <span class="winner-item"><span>Pooja Desai</span> won <b>60rs</b></span>
+      <span class="winner-item"><span>Sanya Malhotra</span> won <b>28rs</b></span>
+      <span class="winner-item"><span>Manish Joshi</span> won <b>45rs</b></span>
+      <span class="winner-item"><span>Deepa Iyer</span> won <b>33rs</b></span>
+      <span class="winner-item"><span>Rohit Agarwal</span> won <b>5rs</b></span>
+      <span class="winner-item"><span>Kavya Bose</span> won <b>22rs</b></span>
+      <span class="winner-item"><span>Arjun Chatterjee</span> won <b>42rs</b></span>
+      <span class="winner-item"><span>Meera Singh</span> won <b>38rs</b></span>
+      <span class="winner-item"><span>Vikram Singh</span> won <b>48rs</b></span>
+      <span class="winner-item"><span>Sanjay Kapoor</span> won <b>18rs</b></span>
+      <span class="winner-item"><span>Nisha Verma</span> won <b>52rs</b></span>
+      <span class="winner-item"><span>Harshad Patel</span> won <b>32rs</b></span>
+      <span class="winner-item"><span>Sonali Deshmukh</span> won <b>40rs</b></span>
+      <span class="winner-item"><span>Gautam Reddy</span> won <b>4rs</b></span>
+      <span class="winner-item"><span>Isha Malhotra</span> won <b>24rs</b></span>
+      <span class="winner-item"><span>Kartik Gupta</span> won <b>35rs</b></span>
+      <span class="winner-item"><span>Riddhi Shah</span> won <b>27rs</b></span>
+      <span class="winner-item"><span>Pranav Mehta</span> won <b>50rs</b></span>
+      <span class="winner-item"><span>Riya Sharma</span> won <b>2rs</b></span>
+      <span class="winner-item"><span>Aditya Choudhary</span> won <b>600rs</b></span>
+      <span class="winner-item"><span>Tanvi Nair</span> won <b>30rs</b></span>
+      <span class="winner-item"><span>Kunal Joshi</span> won <b>40rs</b></span>
+      <span class="winner-item"><span>Shruti Dubey</span> won <b>20rs</b></span>
+      <span class="winner-item"><span>Yash Reddy</span> won <b>400rs</b></span>
+      <span class="winner-item"><span>Neeraj Singh</span> won <b>500rs</b></span>
+      <span class="winner-item"><span>Aditi Chatterjee</span> won <b>330rs</b></span>
+      <span class="winner-item"><span>Vikas Kumar</span> won <b>40rs</b></span>
+      <span class="winner-item"><span>Swati Patel</span> won <b>2rs</b></span>
+      <span class="winner-item"><span>Abhishek Kumar</span> won <b>36rs</b></span>
+      <span class="winner-item"><span>Shreya Bhatt</span> won <b>50rs</b></span>
+      <span class="winner-item"><span>Varun Das</span> won <b>41rs</b></span>
+      <span class="winner-item"><span>Priyanka Rao</span> won <b>30rs</b></span>
+      <span class="winner-item"><span>Sanika Chauhan</span> won <b>39rs</b></span>
+      <span class="winner-item"><span>Mohit Tiwari</span> won <b>53rs</b></span>
+      <span class="winner-item"><span>Ritu Sharma</span> won <b>25rs</b></span>
+      <span class="winner-item"><span>Aman Verma</span> won <b>48rs</b></span>
+      <span class="winner-item"><span>Preeti Kumar</span> won <b>34rs</b></span>
+      <span class="winner-item"><span>Sudhir Gupta</span> won <b>29rs</b></span>
+      <span class="winner-item"><span>Leena Reddy</span> won <b>37rs</b></span>
+      <span class="winner-item"><span>Ananya Srivastava</span> won <b>55rs</b></span>
+      <span class="winner-item"><span>Rajeev Menon</span> won <b>60rs</b></span>
+      <span class="winner-item"><span>Sachin Batra</span> won <b>90rs</b></span>
+      <span class="winner-item"><span>Bhavana Joshi</span> won <b>45rs</b></span>
+      <span class="winner-item"><span>Tarun Khanna</span> won <b>70rs</b></span>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <h1>Giveaway<br> By Fur and Fable</h1>
+    <p>Choose a mystery box to reveal your prize.</p>
+    
+    <!-- Mystery Box Grid -->
+    <div class="box-grid" id="boxGrid">
+      <div class="mystery-box" data-index="0">
+        <img src="gift.png" alt="Mystery Box" class="box-image">
+      </div>
+      <div class="mystery-box" data-index="1">
+        <img src="gift.png" alt="Mystery Box" class="box-image">
+      </div>
+      <div class="mystery-box" data-index="2">
+        <img src="gift.png" alt="Mystery Box" class="box-image">
+      </div>
+      <div class="mystery-box" data-index="3">
+        <img src="gift.png" alt="Mystery Box" class="box-image">
+      </div>
+      <div class="mystery-box" data-index="4">
+        <img src="gift.png" alt="Mystery Box" class="box-image">
+      </div>
+      <div class="mystery-box" data-index="5">
+        <img src="gift.png" alt="Mystery Box" class="box-image">
+      </div>
+    </div>
+    
+    <!-- Modal Popup after Mystery Box selection -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" id="rewardModal">
+        <h2>Congratulations!</h2>
+        <p id="modalMessage">You have won <b><span id="modalReward"></span></b>!<br>
+        Complete the steps to claim your prize.</p>
+        <button onclick="closeModal()">Continue</button>
+      </div>
+    </div>
+    
+    <!-- Steps Section -->
+    <div class="steps" id="steps">
+      <!-- Step 1: Subscribe to Channel -->
+      <div class="step" id="step1">
+        <span>Subscribe to our YouTube channel</span>
+        <button onclick="subscribeStep()">Subscribe</button>
+      </div>
+      <!-- Step 2: Watch the Video -->
+      <div class="step" id="step2">
+        <span>Watch the video</span>
+        <button onclick="videoStep()">Watch Video</button>
+      </div>
+      <div class="error-message" id="videoError">
+        Sorry, an error occurred while viewing the video.
+        <button onclick="retryVideo()">Retry Video</button>
+      </div>
+      <!-- Step 3: Share in WhatsApp Groups -->
+      <div class="step" id="step3">
+        <span>Share in 3 WhatsApp groups</span>
+        <button onclick="shareStep()">Share</button>
+      </div>
+      <div class="error-message" id="shareError">
+        Error, not completed. Kindly try again.
+        <button onclick="retryShare()">Retry Share</button>
+      </div>
+    </div>
+    
+    <!-- Input Section for Giveaway Entry -->
+    <div class="input-section" id="userForm">
+      <input type="text" id="name" placeholder="Enter your name" />
+      <input type="text" id="contact" placeholder="Enter your contact number" />
+      <button onclick="submitEntry()">Enter Giveaway</button>
+    </div>
+    
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+      We will contact you if you are the winner. Congratulations!
+    </div>
+  </div>
+  <div class="securedby">🔒 Secured by Cheema Inc.</div>
+  <script>
+    // Rewards for the mystery boxes (all above 3000rs)
+    const rewards = ["500rs", "100rs", "150rs", "300rs", "500rs", "750rs"];
+    let gameFinished = false;
+    
+    // Fisher-Yates shuffle for rewards
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+    const shuffledRewards = shuffle([...rewards]);
+    
+    const boxes = document.querySelectorAll('.mystery-box');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const rewardModal = document.getElementById('rewardModal');
+    const modalReward = document.getElementById('modalReward');
+    const stepsSection = document.getElementById('steps');
+    const userForm = document.getElementById('userForm');
+    const successMessage = document.getElementById('successMessage');
+    
+    boxes.forEach((box, index) => {
+      box.addEventListener('click', function() {
+        if (gameFinished) return;
+        gameFinished = true;
+        const reward = shuffledRewards[index];
+        box.innerHTML = `<span class="reward-reveal">${reward}</span>`;
+        boxes.forEach(b => b.classList.add('disabled'));
+        modalReward.textContent = reward;
+        setTimeout(() => {
+          modalOverlay.style.display = 'flex';
+          setTimeout(() => {
+            rewardModal.classList.add('active');
+          }, 50);
+        }, 400);
+      });
+    });
+    
+    function closeModal() {
+      rewardModal.classList.remove('active');
+      setTimeout(() => {
+        modalOverlay.style.display = 'none';
+        stepsSection.style.display = 'flex';
+      }, 400);
+    }
+    
+    // Steps Completion Tracking: [subscribe, video, share]
+    let stepsCompleted = [false, false, false];
+
+    // Step 1: Subscribe
+    function subscribeStep() {
+      window.open("https://youtube.com/@furandfable?si=I3Iv1w91noXeOYe9", "_blank");
+      stepsCompleted[0] = true;
+      document.getElementById("step1").innerHTML = '<span class="completed">&#10003; Completed</span>';
+      checkAllSteps();
+    }
+
+    // Step 2: Video Viewing with error simulation
+    function videoStep() {
+      window.open("https://youtube.com/shorts/Xe2dpydfS4o?si=Ow2Udn-PSTG-JFfy", "_blank");
+      setTimeout(() => {
+        document.getElementById("videoError").style.display = "block";
+      }, 500);
+    }
+    
+    function retryVideo() {
+      window.open("https://youtube.com/shorts/0hn_XmOBIlU?si=qawdybJM_mkhbGSJ", "_blank");
+      stepsCompleted[1] = true;
+      document.getElementById("step2").innerHTML = '<span class="completed">&#10003; Completed</span>';
+      document.getElementById("videoError").style.display = "none";
+      checkAllSteps();
+    }
+
+    // Step 3: Share via WhatsApp (error simulation and retry)
+    function shareStep() {
+      window.open("https://api.whatsapp.com/send?text=Check%20this%20out:%20creative.design.vercel.app", "_blank");
+      setTimeout(() => {
+        document.getElementById("shareError").style.display = "block";
+      }, 500);
+    }
+    
+    function retryShare() {
+      stepsCompleted[2] = true;
+      window.open("https://api.whatsapp.com/send?text=Check%20this%20out:%20creative.design.vercel.app", "_blank");
+      document.getElementById("step3").innerHTML = '<span class="completed">&#10003; Completed</span>';
+      document.getElementById("shareError").style.display = "none";
+      checkAllSteps();
+    }
+    
+    // Check if all steps are completed to reveal the input form
+    function checkAllSteps() {
+      if (stepsCompleted.every(step => step)) {
+        userForm.style.display = "flex";
+      }
+    }
+    
+    // Submit giveaway entry
+    function submitEntry() {
+      const name = document.getElementById("name").value.trim();
+      const contact = document.getElementById("contact").value.trim();
+      if (name === "" || contact === "") {
+        alert("Please fill in all fields.");
+        return;
+      }
+      userForm.style.display = "none";
+      stepsSection.style.display = "none";
+      successMessage.style.display = "block";
+    }
+  </script>
+</body>
+</html>
