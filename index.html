@@ -10,36 +10,36 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
   <style>
-    /* CSS Variables for reusability */
+    /* Updated CSS Variables for a more professional, trustworthy look */
     :root {
-      --primary: #00eaff;
-      --secondary: #ff00e6;
-      --accent: #00ff88;
+      --primary: #3b82f6; /* professional blue */
+      --secondary: #1e40af; /* deeper blue for contrast */
+      --accent: #10b981; /* subtle green accent */
       --bg-dark: #111;
-      --glass-bg: rgba(255, 255, 255, 0.06);
-      --border-glass: rgba(255, 255, 255, 0.15);
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --border-glass: rgba(255, 255, 255, 0.1);
     }
+
+    /* Secured Badge Update */
     .securedby {
-  margin-top: 2rem;
-  font-size: 0.95rem;
-  color: #ccc;
-  font-weight: 500;
-  text-align: center;
-  padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.securedby:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 234, 255, 0.3);
-  color: #00eaff;
-}
-
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      color: #ccc;
+      font-weight: 500;
+      text-align: center;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .securedby:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.3);
+      color: var(--primary);
+    }
 
     /* Global Reset & Base Styles */
     * {
@@ -48,22 +48,21 @@
       box-sizing: border-box;
     }
     body {
-      background: linear-gradient(135deg, #0d0d0d 0%, #222 100%); 
-  font-family: "Bricolage Grotesque", sans-serif;
+      background: linear-gradient(135deg, #0d0d0d 0%, #222 100%);
+      font-family: "Bricolage Grotesque", sans-serif;
       color: #fff;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       min-height: 100vh;
       padding: 20px;
-      flex-direction: column;
     }
 
     /* Winner Scroller Styles */
     .winner-scroller {
       width: 100%;
       max-width: 500px;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.55);
       border-radius: 10px;
       overflow: hidden;
       margin-bottom: 20px;
@@ -88,12 +87,8 @@
       padding-bottom: 8px;
     }
     @keyframes scrollWinner {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
     }
     .winner-item {
       display: inline-block;
@@ -103,21 +98,21 @@
       font-weight: 500;
     }
 
-    /* Container with glassmorphic design */
+    /* Main Container with glassmorphic design update */
     .container {
       background: var(--glass-bg);
       border: 1px solid var(--border-glass);
       border-radius: 20px;
-      backdrop-filter: blur(15px);
+      backdrop-filter: blur(20px);
       padding: 2rem;
       width: 100%;
       max-width: 500px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.55);
       text-align: center;
     }
-b{
-  color: green;
-}
+    b {
+      color: var(--accent);
+    }
     h1 {
       font-size: 2.2rem;
       margin-bottom: 1rem;
@@ -126,7 +121,6 @@ b{
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
     p {
       font-size: 1.1rem;
       margin-bottom: 1.5rem;
@@ -139,7 +133,6 @@ b{
       gap: 15px;
       margin-bottom: 1.5rem;
     }
-
     .mystery-box {
       background: var(--glass-bg);
       border: 2px solid var(--border-glass);
@@ -153,28 +146,23 @@ b{
       position: relative;
       overflow: hidden;
     }
-
     .mystery-box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 234, 255, 0.4);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
     }
-
     .mystery-box.disabled {
       pointer-events: none;
       opacity: 0.5;
     }
-
     .box-image {
       width: 70%;
       height: auto;
       filter: drop-shadow(0 0 8px var(--primary));
       transition: transform 0.3s ease;
     }
-
     .mystery-box:hover .box-image {
       transform: scale(1.1);
     }
-
     .reward-reveal {
       font-size: 1.2rem;
       font-weight: 600;
@@ -184,7 +172,7 @@ b{
       -webkit-text-fill-color: transparent;
     }
 
-    /* Modal Popup for Reward */
+    /* Modal Popup Styles for Reward */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -198,27 +186,24 @@ b{
       z-index: 100;
       padding: 20px;
     }
-
     .modal {
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 2rem;
       width: 100%;
       max-width: 320px;
       text-align: center;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.55);
       opacity: 0;
       transform: scale(0.9);
       transition: opacity 0.4s ease, transform 0.4s ease;
     }
-
     .modal.active {
       opacity: 1;
       transform: scale(1);
     }
-
     .modal h2 {
       font-size: 1.8rem;
       margin-bottom: 1rem;
@@ -227,13 +212,11 @@ b{
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
     .modal p {
       margin-bottom: 1.5rem;
       font-size: 1.1rem;
       line-height: 1.4;
     }
-
     .modal button {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       border: none;
@@ -243,12 +226,11 @@ b{
       cursor: pointer;
       color: #fff;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 234, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
-
     .modal button:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0, 234, 255, 0.5);
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
     }
 
     /* Steps Section */
@@ -259,7 +241,6 @@ b{
       gap: 1rem;
       text-align: left;
     }
-
     .step {
       background: var(--glass-bg);
       padding: 12px 15px;
@@ -269,13 +250,11 @@ b{
       justify-content: space-between;
       border: 1px solid var(--border-glass);
     }
-
     .step span {
       font-size: 1rem;
     }
-
     .step button {
-      background: rgba(0, 234, 255, 0.15);
+      background: rgba(59, 130, 246, 0.15);
       border: none;
       padding: 7px 15px;
       border-radius: 12px;
@@ -283,18 +262,16 @@ b{
       font-size: 0.9rem;
       transition: transform 0.3s ease, background 0.3s ease;
     }
-
     .step button:hover {
       transform: scale(1.05);
-      background: rgba(0, 234, 255, 0.3);
+      background: rgba(59, 130, 246, 0.3);
     }
-
     .completed {
       color: var(--accent);
       font-weight: 600;
     }
 
-    /* Error Message in steps */
+    /* Error Message in Steps */
     .error-message {
       display: none;
       margin-top: 10px;
@@ -302,9 +279,8 @@ b{
       color: #f66;
       text-align: center;
     }
-
     .error-message button {
-      background: rgba(0, 234, 255, 0.15);
+      background: rgba(59, 130, 246, 0.15);
       border: none;
       padding: 5px 10px;
       border-radius: 10px;
@@ -313,7 +289,6 @@ b{
       margin-left: 5px;
       transition: transform 0.3s ease;
     }
-
     .error-message button:hover {
       transform: scale(1.05);
     }
@@ -325,7 +300,6 @@ b{
       flex-direction: column;
       gap: 0.8rem;
     }
-
     .input-section input {
       padding: 12px;
       border: 1px solid var(--border-glass);
@@ -337,15 +311,12 @@ b{
       transition: border 0.3s ease;
       width: 100%;
     }
-
     .input-section input:focus {
       border-color: var(--primary);
     }
-
     .input-section input::placeholder {
       color: #ccc;
     }
-
     .input-section button {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       border: none;
@@ -356,13 +327,12 @@ b{
       cursor: pointer;
       margin-top: 0.5rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 234, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
       width: 100%;
     }
-
     .input-section button:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0, 234, 255, 0.5);
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
     }
 
     /* Success Message */
@@ -375,6 +345,38 @@ b{
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       display: none;
+    }
+
+    /* NEW: Footer for Trust & Contact Info */
+    .footer {
+      margin-top: 2rem;
+      padding: 20px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    .footer .trust-badges img {
+      width: 100px;
+      margin: 0 10px;
+    }
+    .footer .footer-links a {
+      color: #3b82f6;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    .footer .footer-links a:hover {
+      color: var(--accent);
+    }
+    .footer .social-media a img {
+      width: 30px;
+      margin: 0 8px;
+    }
+    .footer .company-info {
+      margin-top: 10px;
+      font-size: 0.8rem;
     }
   </style>
 </head>
@@ -443,7 +445,7 @@ b{
 
   <!-- Main Container -->
   <div class="container">
-    <h1>Giveaway<br> By Fur and Fable</h1>
+    <h1>Giveaway<br>By Fur and Fable</h1>
     <p>Choose a mystery box to reveal your prize.</p>
     
     <!-- Mystery Box Grid -->
@@ -517,7 +519,27 @@ b{
       We will contact you if you are the winner. Congratulations!
     </div>
   </div>
+
+  <!-- Existing Secured By Badge -->
   <div class="securedby">🔒 Secured by Cheema Inc.</div>
+
+  <!-- NEW: Footer with Trust & Contact Info -->
+  <footer class="footer">
+    <div class="trust-badges">
+      <!-- Replace these src values with your actual trust seal images -->
+      <img src="ssl.png" alt="SSL Secured">
+      <img src="norton.png" alt="Norton Secured">
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html" target="_blank">Privacy Policy</a>
+      <a href="terms.html" target="_blank">Terms of Service</a>
+      <a href="contact.html" target="_blank">Contact Us</a>
+    </div>
+    <div class="social-media">
+    </div>
+    <p class="company-info">Cheema Inc.</p>
+  </footer>
+
   <script>
     // Rewards for the mystery boxes (all above 3000rs)
     const rewards = ["500rs", "100rs", "150rs", "300rs", "500rs", "750rs"];
